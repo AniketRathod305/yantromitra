@@ -7,10 +7,10 @@ const port=process.env.PORT || 3000
 const mongoose=require('mongoose')
 
 //import our model and schema
-const Userprofile=require('./models/userprof')
+
 const Userlogin=require('./models/userlogin')
 const Teacherlogin=require('./models/teacherlogin')
-const Teacherprofile=require('./models/teacherprofile')
+
 
 //import multer
 const multer=require('multer')
@@ -70,28 +70,22 @@ app.get('/',(req,res)=>{
 })
 
 
-app.get('/login',(req,res)=>{
-    res.render('login')
+app.get('/register',(req,res)=>{
+    res.render('register')
 })
 
 app.get('/login1',(req,res)=>{
     res.render('login1')
 })
 
-app.get('/index',(req,res)=>{
-    res.render('index')
-})
-
-app.get('/index1',(req,res)=>{
-    res.render('index1')
-})
 
 
-//display all user profiles
+
+//display all user profiles to teacher
 app.get('/display',(req,res)=>{
     //read user profiles
     
-    Userprofile.find()
+    Userlogin.find()
     .then((result)=>{
         res.render('display',{users:result})
     })
@@ -101,69 +95,11 @@ app.get('/display',(req,res)=>{
  
 })
 
-//display all teacher profiles
-app.get('/display1',(req,res)=>{
-    //read teacher profiles
-    
-    Teacherprofile.find()
-    .then((result)=>{
-        res.render('display1',{users:result})
-    })
-    .catch((err)=>{
-        console.log(err)
-    })
- 
-})
 
 
 
 
-app.post('/submit',upload,(req,res)=>{
-  
-  //create user profile
-  console.log(req.body)
-  const record=new Userprofile({
-      name:req.body.name,
-      age:req.body.age,
-      dob:req.body.dob,
-      std:req.body.std,
-      div:req.body.div,
-      rollno:req.body.rollno,
-      image:req.file.filename
-  })
-    record.save()
-    .then((result)=>{
-        res.redirect('/index')
-    })
-    .catch((err)=>{
-        console.log(err)
-    })
-})
-
-app.post('/submit5',upload,(req,res)=>{
-  
-    //create teacher profile
-    console.log(req.body)
-    const record=new Teacherprofile({
-        name:req.body.name,
-        age:req.body.age,
-        dob:req.body.dob,
-        qualification:req.body.qlf,
-        image:req.file.filename
-    })
-      record.save()
-      .then((result)=>{
-          res.redirect('/index1')
-      })
-      .catch((err)=>{
-          console.log(err)
-      })
-  })
-  
-
-
-
-app.post('/submit1',(req,res)=>{
+app.post('/submit1',upload,(req,res)=>{
   
     //initiate user registration
     const password=req.body.password
@@ -172,14 +108,20 @@ app.post('/submit1',(req,res)=>{
     {
     console.log(req.body)
     const record1=new Userlogin({
-        username:req.body.username,
         emailid:req.body.emailid,
         password:req.body.password,
-        cpassword:req.body.cpassword
+        cpassword:req.body.cpassword,
+        name:req.body.name,
+        age:req.body.age,
+        dob:req.body.dob,
+        std:req.body.std,
+        div:req.body.div,
+        rollno:req.body.rollno,
+        image:req.file.filename
     })
       record1.save()
       .then((result)=>{
-          res.render('welcome',{user:result})
+          res.render('welcome',{users:result})
       })
       .catch((err)=>{
           console.log(err)
@@ -191,7 +133,7 @@ app.post('/submit1',(req,res)=>{
 })
 
 
-app.post('/submit3',(req,res)=>{
+app.post('/submit3',upload,(req,res)=>{
   
     //initiate teacher registration 
     const password=req.body.password
@@ -200,10 +142,15 @@ app.post('/submit3',(req,res)=>{
     {
     console.log(req.body)
     const record1=new Teacherlogin({
-        username:req.body.username,
         emailid:req.body.emailid,
         password:req.body.password,
-        cpassword:req.body.cpassword
+        cpassword:req.body.cpassword,
+        name:req.body.name,
+        age:req.body.age,
+        dob:req.body.dob,
+        qualification:req.body.qlf,
+        image:req.file.filename
+
     })
       record1.save()
       .then((result)=>{
@@ -227,7 +174,7 @@ app.post('/submit2',(req,res)=>{
     Userlogin.findOne({emailid:email})
     .then((result)=>{
         if(result.password===password){
-            res.render('welcome',{user:result})
+            res.render('welcome',{users:result})
         }
         else{
             res.send('invalid login credential')
@@ -255,6 +202,7 @@ app.post('/submit4',(req,res)=>{
     .catch((error)=>{
         res.send('invalid login credentials')
     })
+    
 })
 
 

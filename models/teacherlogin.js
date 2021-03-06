@@ -3,10 +3,6 @@ const Schema=mongoose.Schema
 
 //create schema(structure of document)
 const teacherloginSchema=new Schema({
-    username:{
-        type:String,
-        required:true
-    },
     emailid:{
         type:String,
         required:true,
@@ -19,6 +15,26 @@ const teacherloginSchema=new Schema({
     cpassword:{
         type:String,
         requied:true
+    },
+    name:{
+        type:String,
+        
+    },
+    age:{
+        type:Number,
+        
+    },
+    dob:{
+        type:Date,
+        
+    },
+    qualification:{
+        type:String,
+        
+    },
+    image:{
+        type:String,
+        
     }
 }
 )

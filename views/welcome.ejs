@@ -7,9 +7,17 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>hello hii</h1>
-    <h1>Welcome to Yantro Mitra <%= user.username %> </h1>
-    <a href="/index">Create profile</a>
-    <a href="/display">View profile</a> 
+    <h1>Welcome to Yantro Mitra </h1>
+   <h1>My profile</h1>
+   <div>
+           <h3>Name:<%= users.name %></h3>
+           <p>Age:<%= users.age %></p>
+           <p>DOB:<%= users.dob%></p>
+           <p>Std:<%= users.std%></p>
+           <p>Div:<%= users.div%></p>
+           <p>Rollno:<%= users.rollno%></p>
+           <img src='<%= users.image %>' alt=''>
+      
+</div>
 </body>
 </html>
