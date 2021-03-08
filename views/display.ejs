@@ -9,19 +9,18 @@
 <body>
     <h1>Students profile</h1>
     <div>
-        <% if(users.length > 0 ) {  
-            users.forEach( (user) =>{ %>
+        
+        <%    users.forEach( (user) =>{ %>
+                <a href='/display/<%= user._id %>'>
                <h3>Name:<%= user.name %></h3>
                <p>Age:<%= user.age %></p>
-               <p>DOB:<%= user.dob%></p>
-               <p>Std:<%= user.std%></p>
-               <p>Div:<%= user.div%></p>
-               <p>Rollno:<%= user.rollno%></p>
-               <img src='<%= user.image %>' alt=''>
-           <% }) 
-        } %> 
+               <img src=<%= user.image %> alt=''>
+                </a>
+           <% }) %>
+       
     </div>
-    <a href='#'>Update</a>
-    <a href='#'>Delete</a>
+   
+  
+
 </body>
 </html>

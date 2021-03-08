@@ -1,20 +1,18 @@
 //import express
 const express=require('express')
 
-
+//declare port for listening requests
 const port=process.env.PORT || 3000
+
 //import mongoose
 const mongoose=require('mongoose')
 
 //import our model and schema
-
 const Userlogin=require('./models/userlogin')
 const Teacherlogin=require('./models/teacherlogin')
 
-
 //import multer
 const multer=require('multer')
-
 const fs=require('fs')
 
 //create express app
@@ -61,14 +59,10 @@ const upload=multer({
     storage:storage, 
 }).single('image')
 
-
-
-
 //configure requests
 app.get('/',(req,res)=>{
     res.render('front')
 })
-
 
 app.get('/register',(req,res)=>{
     res.render('register')
@@ -77,9 +71,6 @@ app.get('/register',(req,res)=>{
 app.get('/login1',(req,res)=>{
     res.render('login1')
 })
-
-
-
 
 //display all user profiles to teacher
 app.get('/display',(req,res)=>{
@@ -94,10 +85,6 @@ app.get('/display',(req,res)=>{
     })
  
 })
-
-
-
-
 
 app.post('/submit1',upload,(req,res)=>{
   
@@ -131,7 +118,6 @@ app.post('/submit1',upload,(req,res)=>{
       res.send('password & confirm password do not match')
     }
 })
-
 
 app.post('/submit3',upload,(req,res)=>{
   
@@ -204,6 +190,30 @@ app.post('/submit4',(req,res)=>{
     })
     
 })
+
+app.get('/display/:id',(req,res)=>{
+    const id=req.params.id
+    Userlogin.findOne({_id:id})
+    .then((result)=>{
+        res.render('details',{user:result})
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+})
+
+
+//delete student (only by teacher)
+app.delete('/display/:id',(req,res)=>{
+    const id=req.params.id
+
+    Userlogin.findByIdAndDelete(id)
+    .then((result)=>{
+        res.json({redirect:'/display'})
+    })
+    .catch((err)=>console.log(err))
+})
+
 
 
 
